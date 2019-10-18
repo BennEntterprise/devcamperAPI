@@ -2,7 +2,7 @@ const express = require('express')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const connectDB = require('./config/db')
-
+const colors = require('colors')
 //Route Files
 const bootcamps = require('./routes/bootcamps')
 
@@ -32,14 +32,14 @@ app.use('/api/v1/bootcamps', bootcamps);
 
 const server = app.listen(
     PORT,
-    console.log(`Server running in ${process.env.NODE_ENV} on port ${PORT}`)
+    console.log(`Server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold)
 )
 
 
 
 ///Handle unhandled Promise Rejections. 
 process.on('unhandledRejection', (err, promise) => {
-    console.log(`Error: ${err.message}`)
+    console.log(`Error: ${err.message}`.red)
     //Close Server/Exit Proces
     server.close(() => process.exit(1))
 })
