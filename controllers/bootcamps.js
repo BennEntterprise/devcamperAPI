@@ -1,29 +1,50 @@
+const Bootcamp = require('../models/Bootcamp')
+
+
+
 
 // @desc    Get All Bootcamps
 // @route   GET /api/v1/bootcamps
 // @access  Public 
-exports.getBootcamps = (req, res, next) => {
-    res
-        .status(200)
-        .json({ success: true, msg: 'Show all bootcamps' })
+exports.getBootcamps = async (req, res, next) => {
+    try {
+        const bootcamps = await Bootcamp.find();
+        res.status(200).json({ success: true, data: bootcamps })
+    } catch (err) {
+        res.status(400).json({ success: false, msg: 'bad request' })
+    }
 }
 
 // @desc    Get Single Bootcamp
 // @route   GET /api/v1/bootcamps/:id
 // @access  Public 
-exports.getBootcamp = (req, res, next) => {
-    res
-        .status(200)
-        .json({ success: true, msg: `Get Bootcamp ${req.params.id}` })
+exports.getBootcamp = async (req, res, next) => {
+    try {
+        const bootcamp = await Bootcamp.findById(req.params.id)
+        if (!bootcamp) {
+            return res.status(400).json({ sucess: false })
+        }
+        res.status(200).json({ sucess: true, data: bootcamp })
+    } catch (err) {
+        res.status(400).json({ success: false, msg: err.message })
+    }
 }
 
 // @desc    Create New Bootcamp
 // @route   POST /api/v1/bootcamps/
 // @access  Private 
-exports.createBootcamp = (req, res, next) => {
-    res
-        .status(200)
-        .json({ success: true, msg: 'Create New Bootcamp' })
+exports.createBootcamp = async (req, res, next) => {
+    try {
+        const bootcamp = await Bootcamp.create(req.body)
+        res.status(201).json({
+            success: true,
+            data: bootcamp
+        })
+    } catch{
+        res.status(400).json({ success: false })
+    }
+
+
 }
 
 // @desc    Update Single Bootcamp

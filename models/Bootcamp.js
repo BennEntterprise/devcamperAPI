@@ -31,6 +31,7 @@ const BootcampSchema = new mongoose.Schema({
         match: [
             /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
             'Please add a valid email.'
+        ]
     },
     address: {
         type: String,
@@ -41,7 +42,7 @@ const BootcampSchema = new mongoose.Schema({
         type: {
             type: String, // Don't do `{ location: { type: String } }`
             enum: ['Point'], // 'location.type' must be 'Point'
-            required: true
+            required: false
         },
         coordinates: {
             type: [Number],
@@ -69,7 +70,7 @@ const BootcampSchema = new mongoose.Schema({
     },
     averageRating: {
         type: Number,
-        min: [1, 'Rating must be at least 1']
+        min: [1, 'Rating must be at least 1'],
         max: [10, 'Rating must be at least 10']
     },
     averageCost: Number,
@@ -99,4 +100,4 @@ const BootcampSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Bootcam', BootcampSchema)
+module.exports = mongoose.model('Bootcamp', BootcampSchema)

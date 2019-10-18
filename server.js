@@ -16,11 +16,14 @@ if (process.env.NODE_ENV === 'production') {
     env = 'development'
 }
 
+
 //connect to DB
 connectDB();
 
 //Initailize app. 
 const app = express();
+//Body Parser Middleware
+app.use(express.json())
 
 //Dev Loggin Middleware
 if (env === 'development') {
