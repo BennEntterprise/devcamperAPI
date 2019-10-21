@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const connectDB = require('./config/db')
@@ -8,8 +9,9 @@ const errorHandler = require('./middleware/error')
 const bootcamps = require('./routes/bootcamps')
 
 // Load/Analyze Environment Variables
-dotenv.config({ path: './config/config.env' })
+dotenv.config({ path: path.resolve(__dirname, './config/config.env') })
 const PORT = process.env.PORT || 5000;
+
 let env;
 if (process.env.NODE_ENV === 'production') {
     env = 'production'
