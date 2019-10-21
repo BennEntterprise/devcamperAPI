@@ -7,6 +7,7 @@ const colors = require('colors')
 const errorHandler = require('./middleware/error')
 //Route Files
 const bootcamps = require('./routes/bootcamps')
+const courses = require('./routes/courses')
 
 // Load/Analyze Environment Variables
 dotenv.config({ path: path.resolve(__dirname, './config/config.env') })
@@ -39,6 +40,7 @@ if (env === 'development') {
 
 //Mount Routers
 app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses', courses);
 
 app.use(errorHandler)
 const server = app.listen(
