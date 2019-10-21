@@ -27,7 +27,7 @@ connectDB();
 const app = express();
 
 //INITIALIZE MIDDLEWARES
-//s
+//
 //
 //Body Parser Middleware
 app.use(express.json())
