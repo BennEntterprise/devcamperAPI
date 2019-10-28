@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const connectDB = require('./config/db')
 const colors = require('colors')
 const errorHandler = require('./middleware/error')
+
 //Route Files
 const bootcamps = require('./routes/bootcamps')
 const courses = require('./routes/courses')
