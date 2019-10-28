@@ -5,6 +5,7 @@ const morgan = require('morgan')
 const connectDB = require('./config/db')
 const colors = require('colors')
 const errorHandler = require('./middleware/error')
+const fileupload = require('express-fileupload')
 
 //Route Files
 const bootcamps = require('./routes/bootcamps')
@@ -38,6 +39,10 @@ app.use(express.json())
 if (env === 'development') {
     app.use(morgan('dev'))
 }
+
+
+//File Upload
+app.use(fileupload());
 
 //Mount Routers
 app.use('/api/v1/bootcamps', bootcamps);

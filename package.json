@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "SET NODE_ENV=production & node server.js",
     "dev": "nodemon server",
-    "unseed": "node seeder.js -d", 
+    "unseed": "node seeder.js -d",
     "reseed": "node seeder.js -i"
   },
   "keywords": [
@@ -20,6 +20,7 @@
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.1.6-alpha.6",
     "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "node-geocoder": "^3.24.0",
