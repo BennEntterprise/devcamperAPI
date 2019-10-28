@@ -24,14 +24,14 @@ const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`
 const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`, 'utf-8'))
 
 //Import into DB
-const importData = async (seedType) => {
+const importData = async () => {
     try {
         await Bootcamp.create(bootcamps)
-        await Course.create(courses)
+        // await Course.create(courses)
         console.log(`Data Imported...`.green.inverse)
-        if(seedType ==='-i'){
-            process.exit()
-        }
+     
+        process.exit(0)
+   
     } catch (err) {
         console.log(err)
         process.exit(1)
@@ -39,32 +39,25 @@ const importData = async (seedType) => {
 }
 
 //Delete data (unseeder)
-const deleteData = async (seedType) => {
+const deleteData = async () => {
     try {
         await Bootcamp.deleteMany()
         await Course.deleteMany()
         console.log(`Data Destoryed...`.red.inverse)
-        if(seedType === '-d'){
-            process.exit()
-        }
+   
+        process.exit(0)
+      
     } catch (err) {
         console.log(err)
         process.exit(1)
     }
 }
 
-//Delete then re-import
-async function  reseed(seedType){
-    deleteData(seedType) 
-    importData(seedType)
-}
+
 
 let seedType = process.argv[2];
 if ( seedType === '-i') {
-    importData(seedType)
+    importData()
 } else if (seedType === '-d') {
-    deleteData(seedType);
-}else if(seedType=== '-r'){
-     (async () => await reseed(seedType))
-    process.exit();
+    deleteData();
 }
