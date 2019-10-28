@@ -5,7 +5,8 @@ const {
     createBootcamp,
     updateBootcamp,
     deleteBootcamp,
-    getBootcampsInRadius } = require('../controllers/bootcamps')
+    getBootcampsInRadius, 
+    bootcampPhotoUpload } = require('../controllers/bootcamps')
 
 //Include other Resource routers. 
 const courseRouter = require('./courses')
@@ -19,6 +20,10 @@ router.use('/:bootcampId/courses', courseRouter)
 router
     .route('/radius/:zipCode/:distance')
     .get(getBootcampsInRadius)
+
+router
+    .route('/:id/photo')
+    .put(bootcampPhotoUpload)
 
 router
     .route('/')

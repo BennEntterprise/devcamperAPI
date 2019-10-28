@@ -44,6 +44,9 @@ if (env === 'development') {
 //File Upload
 app.use(fileupload());
 
+//Set Static folder
+app.use(express.static(path.join(__dirname, 'public')))
+
 //Mount Routers
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
