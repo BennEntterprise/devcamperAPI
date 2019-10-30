@@ -6,6 +6,7 @@ const connectDB = require('./config/db')
 const colors = require('colors')
 const errorHandler = require('./middleware/error')
 const fileupload = require('express-fileupload')
+const cookieParser = require('cookie-parser')
 
 //Route Files
 const bootcamps = require('./routes/bootcamps')
@@ -35,6 +36,7 @@ const app = express();
 //
 //Body Parser Middleware
 app.use(express.json())
+app.use(cookieParser())
 
 //Dev Loggin Middleware
 if (env === 'development') {
