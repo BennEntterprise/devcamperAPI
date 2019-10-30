@@ -8,68 +8,9 @@ const path = require('path')
 // @route   GET /api/v1/bootcamps
 // @access  Public 
 exports.getBootcamps = asyncHandler(async (req, res, next) => {
-    let query;
-    //Copy Req.query
-    const reqQuery = { ...req.query }
+   
 
-    //Fields to Exclude from query
-    const removeFields = ['select', 'sort', 'page', 'limit']
-    //Loop over remove fields, delete from reqQuery
-    removeFields.forEach(param => delete reqQuery[param])
-
-    //Create Query String
-    let queryStr = JSON.stringify(reqQuery)
-
-    //Formate qString to have mongoDB operators.
-    queryStr = queryStr.replace(/\b(gt|gte|lt|lte|in)\b/g, match => `$${match}`)
-
-    //Find resource
-    query = Bootcamp.find(JSON.parse(queryStr)).populate({
-        path: 'courses', 
-        select: 'title description'
-    })
-
-    //SELECT only certain fields.
-    if (req.query.select) {
-        const fields = req.query.select.split(',').join(' ')
-        query.select(fields)
-    }
-
-    //Sorting
-    if (req.query.sort) {
-        const sortBy = req.query.sort.split(',').join(' ');
-        query = query.sort(sortBy)
-    } else {
-        query = query.sort('-createdAt')
-    }
-
-    //pagination
-    const page = parseInt(req.query.page, 10) || 1;
-    const limit = parseInt(req.query.limit, 10) || 1;
-    const startIndex = (page - 1) * limit;
-    const endIndex = (page * limit)
-    const total = await Bootcamp.countDocuments();
-
-    query = query.skip(startIndex).limit(limit)
-
-    //Execute Query
-    const bootcamps = await query
-    //Pagination Result
-    const pagination = {};
-    if (endIndex < total) {
-        pagination.next = {
-            page: page + 1,
-            limit: limit
-        }
-    }
-    if (startIndex > 0) {
-        pagination.prev = {
-            page: page - 1,
-            limit: limit
-        }
-    }
-
-    res.status(200).json({ success: true, pagination, count: bootcamps.length, data: bootcamps })
+    res.status(200).json(res.advancedResults) //aR is available on res because it was put there by earlier middleware ()
 })
 
 // @desc    Get Single Bootcamp

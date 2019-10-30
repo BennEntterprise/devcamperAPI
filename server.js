@@ -10,6 +10,7 @@ const fileupload = require('express-fileupload')
 //Route Files
 const bootcamps = require('./routes/bootcamps')
 const courses = require('./routes/courses')
+const auth = require('./routes/auth')
 
 // Load/Analyze Environment Variables
 dotenv.config({ path: path.resolve(__dirname, './config/config.env') })
@@ -50,6 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 //Mount Routers
 app.use('/api/v1/bootcamps', bootcamps);
 app.use('/api/v1/courses', courses);
+app.use('/api/v1/auth', auth)
 
 app.use(errorHandler)
 const server = app.listen(
