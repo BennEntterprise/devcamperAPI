@@ -46,7 +46,7 @@ const deleteData = async () => {
     try {
         await Bootcamp.deleteMany()
         await Course.deleteMany()
-        await Usergit.deleteMany()
+        await User.deleteMany()
         console.log(`Data Destoryed...`.red.inverse)
    
         process.exit(0)
