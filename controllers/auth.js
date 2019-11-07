@@ -4,7 +4,6 @@ const asyncHandler = require('../middleware/async')
 const path = require('path')
 const sendEmail = require('../utils/sendEmail')
 
-
 //  @desc   Register User
 //  @route  POST api/v1/auth/register
 //  @access Public
@@ -22,7 +21,6 @@ exports.register = asyncHandler(async (req, res, next)=>{
    sendTokenResponse(user, 200, res)
 
 })
-
 
 //  @desc   Login User
 //  @route  POST api/v1/auth/login
@@ -65,8 +63,6 @@ exports.getMe = asyncHandler(async (req, res, next)=>{
     })
 })
 
-
-
 //  @desc   forgot passwrod
 //  @route  POST api/v1/auth/forgotPassword
 //  @access public
@@ -76,7 +72,6 @@ exports.forgotPassword = asyncHandler(async (req, res, next)=>{
     if(!user){
         return next(new ErrorResponse(`There is no user with that email`, 404))
     }
-
 
     // Get the reset Token 
     const resetToken = user.getResetPasswordToken()
@@ -126,6 +121,3 @@ exports.forgotPassword = asyncHandler(async (req, res, next)=>{
             token: token
         })
  }
-
-
-
