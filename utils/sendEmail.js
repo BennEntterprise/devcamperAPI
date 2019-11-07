@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
-
+const path = require('path')
+const dotenv = require('dotenv')
+dotenv.config({ path: path.resolve(__dirname, '../config/config.env') })
 // async..await is not allowed in global scope, must use a wrapper
 const sendEmail = async (options) => {
    
