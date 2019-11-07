@@ -3,7 +3,7 @@ const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const path = require('path')
 const sendEmail = require('../utils/sendEmail')
-
+const crypto = require('crypto')
 //  @desc   Register User
 //  @route  POST api/v1/auth/register
 //  @access Public
@@ -80,7 +80,7 @@ exports.forgotPassword = asyncHandler(async (req, res, next)=>{
     await user.save({validateBeforeSave: false})
 
     //Create Reset URL
-    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/resetPassword/${resetToken}`
+    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword/${resetToken}`
     const message = `You are recieving this email because you (or someone else) has requested the reset of a password. Please makea put request to: \n\n ${resetURL} `
 
     try {
@@ -96,10 +96,42 @@ exports.forgotPassword = asyncHandler(async (req, res, next)=>{
         user.resetPasswordExipre = undefined; 
 
         await user.save({validateBeforeSave: false})
-        return next(new ErrorResponse(`Email not sent successfulltt`, 400))
+        return next(new ErrorResponse(`Email not sent successfully`, 500))
     }
 
 })
+
+//  @desc   Reset Password
+//  @route  Put api/v1/resetpassword/:resettoken
+//  @access Public
+exports.resetPassword = asyncHandler(async (req, res, next)=>{
+    //Get Hased Token
+    const resetPasswordToken = crypto
+        .createHash('sha256')
+        .update(req.params.resettoken)
+        .digest('hex')
+
+    const user = await User.findOne({
+        resetPasswordToken, 
+        resetPasswordExpire: {$gt : Date.now()}
+    })
+
+    if(!user){
+        return next(new ErrorResponse(`invalid token `, 400))
+    }
+
+    //Set new password
+    user.password = req.body.password
+    
+    //Delete vars
+    user.resetPasswordToken = undefined
+    user.resetPasswordExpire = undefined
+    await user.save()
+    
+    sendTokenResponse(user, 200, res)
+})
+
+
  //Get Token from Model, create cookie and send response. 
  const sendTokenResponse = (user, statusCode, res ) =>{
     const options = {
