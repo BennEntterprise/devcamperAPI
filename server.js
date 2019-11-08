@@ -7,6 +7,9 @@ const colors = require('colors')
 const errorHandler = require('./middleware/error')
 const fileupload = require('express-fileupload')
 const cookieParser = require('cookie-parser')
+const mongoSanitize = require('express-mongo-sanitize')
+const helmet = require('helmet')
+const xss = require('xss-clean')
 
 //Route Files
 const bootcamps = require('./routes/bootcamps')
@@ -49,6 +52,14 @@ if (env === 'development') {
 //File Upload
 app.use(fileupload());
 
+// Sanitize Data
+app.use(mongoSanitize())
+
+//Set Security Headers
+app.use(helmet())
+
+//Prevent XSS Attacks
+app.use(xss())
 //Set Static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
