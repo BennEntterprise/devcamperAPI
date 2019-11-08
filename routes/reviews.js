@@ -13,10 +13,13 @@ const { protect, authorize } = require('../middleware/auth')
 const advancedResults = require('../middleware/advancedResults')
 
 router.route('/')
-    .get(advancedResults(Review, {
+    .get(
+        advancedResults(Review, {
             path: 'bootcamp', 
             select: 'name description'
-        }), getReviews)
+        }), 
+        getReviews
+    )
     .post(protect, authorize('user', 'admin'), addReview)
   
 

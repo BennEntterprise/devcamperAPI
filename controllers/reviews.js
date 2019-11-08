@@ -1,7 +1,7 @@
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const Review = require('../models/Review')
-const path = require('path')
+const Bootcamp = require('../models/Bootcamp')
 
 
 // @desc    Get Reviews
@@ -47,11 +47,9 @@ exports.getReview = asyncHandler(async (req, res, next) => {
 exports.addReview = asyncHandler(async (req, res, next) => {
     req.body.bootcamp = req.params.bootcampId 
     req.body.user = req.user.id
-
-    const bootcamp = await bootcamp.findById(req.params.bootcampId)
-
+    const bootcamp = await Bootcamp.findById(req.params.bootcampId)
     if(!bootcamp){
-        return next( new ErrorResponse(`No bootcamp found with id ${req.params.id}`,404))
+        return next( new ErrorResponse(`No bootcamp found with id ${req.params.bootcampId}`,404))
     }
 
     const review = await Review.create(req.body)
