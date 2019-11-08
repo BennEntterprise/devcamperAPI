@@ -10,6 +10,9 @@ const cookieParser = require('cookie-parser')
 const mongoSanitize = require('express-mongo-sanitize')
 const helmet = require('helmet')
 const xss = require('xss-clean')
+const rateLimit = require('express-rate-limit')
+const hpp = require('hpp')
+const cors = require('cors')
 
 //Route Files
 const bootcamps = require('./routes/bootcamps')
@@ -60,6 +63,20 @@ app.use(helmet())
 
 //Prevent XSS Attacks
 app.use(xss())
+
+//Rate Limiting
+const limiter = rateLimit({
+    windowMs: 10 * 60 *1000, //10 mins,
+    max: 100
+})
+app.use(limiter)
+
+//Prevent HTTP Param polution
+app.use(hpp())
+
+//Enable Cross Origins Resourse (CORS)
+app.use(cors())
+
 //Set Static folder
 app.use(express.static(path.join(__dirname, 'public')))
 
